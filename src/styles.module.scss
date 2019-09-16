@@ -1,0 +1,41 @@
+:global(#root) {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+body {
+  margin: 0;
+  margin-top: 35px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.main {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  height: 75%;
+  background-color: black;
+
+  .messages {
+    flex: 1;
+  }
+
+  .input {
+    height: 50px;
+    padding: 5px;
+    border: 0;
+    outline: none;
+    background-color: #333333;
+    color: #ffffff;
+    font-size: 20px;
+    margin: 15px;
+  }
+
+  ::placeholder {
+    color: #717171;
+  }
+}

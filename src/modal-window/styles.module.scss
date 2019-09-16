@@ -1,0 +1,26 @@
+.modalWindow {
+  position: absolute;
+  justify-content: center;
+  align-self: center;
+  text-align: center;
+  padding: 10px;
+  background-color: rgba(302, 275, 125, 0.7);
+  height: 95px;
+  width: 265px;
+  border: 1px solid black;
+
+  .content {
+    margin: 5px 5px 15px;
+    font-size: 15px;
+  }
+
+  .moduleInput {
+    outline: none;
+    border: 0;
+    height: 25%;
+    width: 60%;
+    background-color: transparent;
+    font-size: 20px;
+    font-family: inherit;
+  }
+}
