@@ -19,9 +19,27 @@ body {
   width: 50%;
   height: 75%;
   background-color: black;
+  color: white;
 
   .messages {
     flex: 1;
+
+    .messageBox {
+      margin: 15px;
+
+      .username {
+        display: inline-block;
+      }
+
+      .message {
+        display: inline-block;
+      }
+    }
+
+    .messageTime {
+      margin: 5px;
+      font-size: 10px;
+    }
   }
 
   .input {

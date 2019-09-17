@@ -4,7 +4,7 @@
   align-self: center;
   text-align: center;
   padding: 10px;
-  background-color: rgba(302, 275, 125, 0.7);
+  background-color: rgba(93, 214, 202, 0.886);
   height: 95px;
   width: 265px;
   border: 1px solid black;
@@ -12,6 +12,7 @@
   .content {
     margin: 5px 5px 15px;
     font-size: 15px;
+    color: black;
   }
 
   .moduleInput {
@@ -20,7 +21,8 @@
     height: 25%;
     width: 60%;
     background-color: transparent;
-    font-size: 20px;
+    font-size: 23px;
     font-family: inherit;
+    border-bottom: 1px solid black;
   }
 }

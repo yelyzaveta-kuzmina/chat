@@ -51,15 +51,16 @@ class App extends React.Component {
 
     return (
       <div className={styles.main}>
-        <Header />
         {!userName && (
           <ModalWindow onUserNameChanged={this.onUserNameChanged} />
         )}
+        {userName && <Header userName={userName} />}
         <div className={styles.messages}>
           {this.state.messages.map(({ userName, message, time }, index) => (
-            <div key={index}>
-              {userName}: {message}
-              <div>{time}</div>
+            <div className={styles.messageBox} key={index}>
+              <div className={styles.username}> {userName}:</div>
+              <div className={styles.message}>&nbsp;{message}</div>
+              <div className={styles.messageTime}>{time}</div>
             </div>
           ))}
         </div>
