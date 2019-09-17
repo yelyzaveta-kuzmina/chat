@@ -7,6 +7,7 @@ const API_ORIGIN = "http://192.168.0.94:8080";
 
 class App extends React.Component {
   inputRef = React.createRef();
+  messagesRef = React.createRef();
   state = { messages: [], input: "", userName: "" };
 
   componentDidMount() {
@@ -17,7 +18,7 @@ class App extends React.Component {
     fetch(`${API_ORIGIN}/messages`)
       .then(response => response.json())
       .then(messages => {
-        this.setState({ messages });
+        this.setState({ messages }, this.scrollToBottom);
       })
       .catch(error => console.error(error));
   };
@@ -48,6 +49,16 @@ class App extends React.Component {
     }
   };
 
+  scrollToBottom = () => {
+    if (!this.messagesRef.current) {
+      return;
+    }
+    this.messagesRef.current.scroll({
+      top: this.messagesRef.current.scrollHeight,
+      behavior: "smooth"
+    });
+  };
+
   render() {
     const { input, userName } = this.state;
 
@@ -57,7 +68,7 @@ class App extends React.Component {
           <ModalWindow onUserNameChanged={this.onUserNameChanged} />
         )}
         {userName && <Header userName={userName} />}
-        <div className={styles.messages}>
+        <div ref={this.messagesRef} className={styles.messages}>
           {this.state.messages.map(({ userName, message, time }, index) => (
             <div className={styles.messageBox} key={index}>
               <div className={styles.username}> {userName}:</div>
