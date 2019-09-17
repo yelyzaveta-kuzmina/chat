@@ -6,6 +6,7 @@ import styles from "./styles.module.scss";
 const API_ORIGIN = "http://192.168.0.94:8080";
 
 class App extends React.Component {
+  inputRef = React.createRef();
   state = { messages: [], input: "", userName: "" };
 
   componentDidMount() {
@@ -33,6 +34,7 @@ class App extends React.Component {
 
   onKeyUpHandle = event => {
     if (event.key === 13 || event.which === 13) {
+      this.setState({ input: "" });
       fetch(`${API_ORIGIN}/message`, {
         method: "POST",
         headers: {
@@ -47,7 +49,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { userName } = this.state;
+    const { input, userName } = this.state;
 
     return (
       <div className={styles.main}>
@@ -69,6 +71,7 @@ class App extends React.Component {
           onChange={this.onInputChange}
           onKeyUp={this.onKeyUpHandle}
           className={styles.input}
+          value={input}
         />
       </div>
     );
