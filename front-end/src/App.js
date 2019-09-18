@@ -1,9 +1,13 @@
 import React from "react";
 import Header from "./header";
 import ModalWindow from "./modal-window";
+import SimpleCrypto from "simple-crypto-js";
 import styles from "./styles.module.scss";
 
 const API_ORIGIN = "http://192.168.0.94:8080";
+
+const secretKey = "some-unique-key";
+const simpleCrypto = new SimpleCrypto(secretKey);
 
 class App extends React.Component {
   inputRef = React.createRef();
@@ -18,7 +22,15 @@ class App extends React.Component {
     fetch(`${API_ORIGIN}/messages`)
       .then(response => response.json())
       .then(messages => {
-        this.setState({ messages }, this.scrollToBottom);
+        if (this.state.userName === "top-secret") {
+          const decodedMessages = messages.map(message => ({
+            ...message,
+            message: simpleCrypto.decrypt(message.message)
+          }));
+          this.setState({ messages: decodedMessages }, this.scrollToBottom);
+        } else {
+          this.setState({ messages }, this.scrollToBottom);
+        }
       })
       .catch(error => console.error(error));
   };
@@ -35,6 +47,8 @@ class App extends React.Component {
 
   onKeyUpHandle = event => {
     if (event.key === 13 || event.which === 13) {
+      const message = this.state.input;
+      const encodedMessage = simpleCrypto.encrypt(message);
       this.setState({ input: "" });
       fetch(`${API_ORIGIN}/message`, {
         method: "POST",
@@ -42,7 +56,7 @@ class App extends React.Component {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          message: this.state.input,
+          message: encodedMessage,
           userName: this.state.userName
         })
       });
