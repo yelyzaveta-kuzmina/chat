@@ -12,7 +12,7 @@ const simpleCrypto = new SimpleCrypto(secretKey);
 class App extends React.Component {
   inputRef = React.createRef();
   messagesRef = React.createRef();
-  state = { messages: [], input: "", userName: "" };
+  state = { messages: [], input: "", userName: "", key: "" };
 
   componentDidMount() {
     setInterval(this.refetchMessages, 1000);
@@ -22,7 +22,7 @@ class App extends React.Component {
     fetch(`${API_ORIGIN}/messages`)
       .then(response => response.json())
       .then(messages => {
-        if (this.state.userName === "top-secret") {
+        if (this.state.key === "top-secret") {
           const decodedMessages = messages.map(message => ({
             ...message,
             message: simpleCrypto.decrypt(message.message)
@@ -45,6 +45,10 @@ class App extends React.Component {
     this.setState({ userName });
   };
 
+  onKeyChanged = key => {
+    this.setState({ key });
+  };
+
   onKeyUpHandle = event => {
     if (event.key === 13 || event.which === 13) {
       const message = this.state.input;
@@ -57,7 +61,8 @@ class App extends React.Component {
         },
         body: JSON.stringify({
           message: encodedMessage,
-          userName: this.state.userName
+          userName: this.state.userName,
+          key: this.state.key
         })
       });
     }
@@ -74,12 +79,15 @@ class App extends React.Component {
   };
 
   render() {
-    const { input, userName } = this.state;
+    const { input, userName, key } = this.state;
 
     return (
       <div className={styles.main}>
-        {!userName && (
-          <ModalWindow onUserNameChanged={this.onUserNameChanged} />
+        {!key && (
+          <ModalWindow
+            onKeyChanged={this.onKeyChanged}
+            onUserNameChanged={this.onUserNameChanged}
+          />
         )}
         {userName && <Header userName={userName} />}
         <div ref={this.messagesRef} className={styles.messages}>
