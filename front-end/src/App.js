@@ -12,7 +12,12 @@ const simpleCrypto = new SimpleCrypto(secretKey);
 class App extends React.Component {
   inputRef = React.createRef();
   messagesRef = React.createRef();
-  state = { messages: [], input: "", userName: "", key: "" };
+  state = {
+    messages: [],
+    input: "",
+    userName: "",
+    key: ""
+  };
 
   componentDidMount() {
     setInterval(this.refetchMessages, 1000);
@@ -47,6 +52,10 @@ class App extends React.Component {
 
   onKeyChanged = key => {
     this.setState({ key });
+  };
+
+  onSecretKeySet = () => {
+    simpleCrypto.setSecret("");
   };
 
   onKeyUpHandle = event => {
@@ -100,6 +109,8 @@ class App extends React.Component {
           ))}
         </div>
         <input
+          disabled={this.state.key !== "top-secret"}
+          id="message"
           placeholder="Type message"
           onChange={this.onInputChange}
           onKeyUp={this.onKeyUpHandle}

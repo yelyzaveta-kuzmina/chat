@@ -13,38 +13,38 @@ class ModalWindow extends React.Component {
     });
   };
 
-  onEnterHandle = event => {
-    if (event.key === 13 || event.which === 13) {
-      const { userName, key } = this.state;
-      this.props.onKeyChanged(key);
-      this.props.onUserNameChanged(userName);
-    }
+  onSubmit = event => {
+    const { userName, key } = this.state;
+    event.preventDefault();
+    this.props.onKeyChanged(key);
+    this.props.onUserNameChanged(userName);
   };
 
   render() {
     return (
       <div className={styles.modalWindow}>
-        <div>
-          <div className={styles.content}>Username:</div>
-          <input
-            autoFocus
-            required
-            name="userName"
-            className={styles.moduleInput}
-            onKeyUp={this.onEnterHandle}
-            onChange={this.onInputChange}
-          />
-        </div>
-        <div className={styles.wrapper}>
-          <div className={styles.content}>Secret Key:</div>
-          <input
-            required
-            name="key"
-            className={styles.moduleInput}
-            onKeyUp={this.onEnterHandle}
-            onChange={this.onInputChange}
-          />
-        </div>
+        <form onSubmit={this.onSubmit}>
+          <div>
+            <div className={styles.content}>Username:</div>
+            <input
+              autoFocus
+              required
+              name="userName"
+              className={styles.moduleInput}
+              onChange={this.onInputChange}
+            />
+          </div>
+          <div className={styles.wrapper}>
+            <div className={styles.content}>Secret Key:</div>
+            <input
+              required
+              name="key"
+              className={styles.moduleInput}
+              onChange={this.onInputChange}
+            />
+          </div>
+          <input style={{ display: "none" }} type="submit" />
+        </form>
       </div>
     );
   }
