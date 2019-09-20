@@ -83,7 +83,7 @@ class App extends React.Component {
 
     return (
       <div className={styles.main}>
-        {!key && (
+        {!key && !userName && (
           <ModalWindow
             onKeyChanged={this.onKeyChanged}
             onUserNameChanged={this.onUserNameChanged}

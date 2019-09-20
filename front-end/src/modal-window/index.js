@@ -2,15 +2,22 @@ import React from "react";
 import styles from "./styles.module.scss";
 
 class ModalWindow extends React.Component {
-  onUsernameHandle = event => {
-    if (event.key === 13 || event.which === 13) {
-      this.props.onUserNameChanged(event.target.value);
-    }
+  state = {
+    userName: "",
+    key: ""
   };
 
-  onKeyHandle = event => {
+  onInputChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  onEnterHandle = event => {
     if (event.key === 13 || event.which === 13) {
-      this.props.onKeyChanged(event.target.value);
+      const { userName, key } = this.state;
+      this.props.onKeyChanged(key);
+      this.props.onUserNameChanged(userName);
     }
   };
 
@@ -18,20 +25,24 @@ class ModalWindow extends React.Component {
     return (
       <div className={styles.modalWindow}>
         <div>
-          <div className={styles.content}>Username: </div>
+          <div className={styles.content}>Username:</div>
           <input
             autoFocus
             required
+            name="userName"
             className={styles.moduleInput}
-            onKeyUp={this.onUsernameHandle}
+            onKeyUp={this.onEnterHandle}
+            onChange={this.onInputChange}
           />
         </div>
         <div className={styles.wrapper}>
-          <div className={styles.content}>Secret Key : </div>
+          <div className={styles.content}>Secret Key:</div>
           <input
             required
+            name="key"
             className={styles.moduleInput}
-            onKeyUp={this.onKeyHandle}
+            onKeyUp={this.onEnterHandle}
+            onChange={this.onInputChange}
           />
         </div>
       </div>
