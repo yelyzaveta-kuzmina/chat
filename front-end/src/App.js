@@ -6,8 +6,8 @@ import styles from "./styles.module.scss";
 
 const API_ORIGIN = "http://192.168.0.94:8080";
 
-const secretKey = "some-unique-key";
-const simpleCrypto = new SimpleCrypto(secretKey);
+const SECRET_KEY = "top-secret";
+const simpleCrypto = new SimpleCrypto(SECRET_KEY);
 
 class App extends React.Component {
   inputRef = React.createRef();
@@ -27,7 +27,7 @@ class App extends React.Component {
     fetch(`${API_ORIGIN}/messages`)
       .then(response => response.json())
       .then(messages => {
-        if (this.state.key === "top-secret") {
+        if (this.state.key === SECRET_KEY) {
           const decodedMessages = messages.map(message => ({
             ...message,
             message: simpleCrypto.decrypt(message.message)
@@ -52,10 +52,6 @@ class App extends React.Component {
 
   onKeyChanged = key => {
     this.setState({ key });
-  };
-
-  onSecretKeySet = () => {
-    simpleCrypto.setSecret("");
   };
 
   onKeyUpHandle = event => {
