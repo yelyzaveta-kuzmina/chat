@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const { addMessage, getAllMessages } = require("./database");
 
 const PORT = process.env.PORT || 8080;
-const messages = []; // { user: '', message: '' }
 
 const app = express();
 
@@ -12,15 +12,12 @@ app.use(bodyParser.json());
 
 app.post("/message", (request, response) => {
   const message = request.body;
-  console.log(message);
-  messages.push({
-    ...message,
-    time: new Date().toLocaleString()
-  });
+  addMessage(message);
   response.status(200).send();
 });
 
-app.get("/messages", (request, response) => {
+app.get("/messages", async (request, response) => {
+  const messages = await getAllMessages();
   response.send(messages);
 });
 
